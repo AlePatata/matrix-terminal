@@ -27,6 +27,7 @@ async def mandar_msg(msg):
 
 
 def listensForLogs(room, event):
+    print(f"llegó este evento: {event}")
     if event.server_timestamp < startTime:
         return
     id = room.room_id
@@ -49,12 +50,13 @@ async def main():
     print(res)
 
     global startTime
+    await client.sync(timeout=3000)
     startTime = datetime.now().timestamp() * 1000
 
     listener_task = asyncio.create_task(listenerFunction())
 
     while True:
-        message = await asyncio.to_thread(input, "responder? ")    
+        message = await asyncio.to_thread(input, "responder? ")
         if message == ":q":
             break
         
