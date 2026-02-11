@@ -4,11 +4,13 @@ from datetime import datetime
 from nio import AsyncClient, RoomMessageText
 import getpass
 
-matrixServer = "https://fjara.cl"
+serverName = "fjara.cl"
+matrix_server = f"https://{serverName}"
 usr = "alepatata"
-room_id = "!JcyXcqJpFionRkCrPM:fjara.cl"
+room_id = "!awHogJupKuxvbsZfYQ:fjara.cl"
+usr_id = f"@{usr}:{serverName}"
 
-client = AsyncClient(matrixServer, usr)
+client = AsyncClient(matrix_server, usr)
 privRooms = []
 startTime = None
 
@@ -28,7 +30,8 @@ def listensForLogs(room, event):
     if event.server_timestamp < startTime:
         return
     id = room.room_id
-    if id != room_id:
+    print(event.sender)
+    if id != room_id or event.sender == usr_id:
         return
     messageText = event.body
     for line in messageText.strip().splitlines():
